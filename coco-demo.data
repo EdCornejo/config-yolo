@@ -1,0 +1,7 @@
+classes= 3
+train  = /content/data/trainvalno5k.txt
+valid  = /content/data/5k.txt
+names = /content/data/coco-demo.names
+backup = /content/darknet/backup
+eval=coco
+
