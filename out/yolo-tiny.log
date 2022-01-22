@@ -1,0 +1,185 @@
+ CUDA-version: 11010 (11020), cuDNN: 7.6.5, CUDNN_HALF=1, GPU count: 1
+ CUDNN_HALF=1
+ OpenCV version: 3.2.0
+ 0 : compute_capability = 600, cudnn_half = 0, GPU: Tesla P100-PCIE-16GB
+net.optimized_memory = 0
+mini_batch = 1, batch = 1, time_steps = 1, train = 0
+   layer   filters  size/strd(dil)      input                output
+   0 Create CUDA-stream - 0
+ Create cudnn-handle 0
+conv     16       3 x 3/ 1    416 x 416 x   3 ->  416 x 416 x  16 0.150 BF
+   1 max                2x 2/ 2    416 x 416 x  16 ->  208 x 208 x  16 0.003 BF
+   2 conv     32       3 x 3/ 1    208 x 208 x  16 ->  208 x 208 x  32 0.399 BF
+   3 max                2x 2/ 2    208 x 208 x  32 ->  104 x 104 x  32 0.001 BF
+   4 conv     64       3 x 3/ 1    104 x 104 x  32 ->  104 x 104 x  64 0.399 BF
+   5 max                2x 2/ 2    104 x 104 x  64 ->   52 x  52 x  64 0.001 BF
+   6 conv    128       3 x 3/ 1     52 x  52 x  64 ->   52 x  52 x 128 0.399 BF
+   7 max                2x 2/ 2     52 x  52 x 128 ->   26 x  26 x 128 0.000 BF
+   8 conv    256       3 x 3/ 1     26 x  26 x 128 ->   26 x  26 x 256 0.399 BF
+   9 max                2x 2/ 2     26 x  26 x 256 ->   13 x  13 x 256 0.000 BF
+  10 conv    512       3 x 3/ 1     13 x  13 x 256 ->   13 x  13 x 512 0.399 BF
+  11 max                2x 2/ 1     13 x  13 x 512 ->   13 x  13 x 512 0.000 BF
+  12 conv   1024       3 x 3/ 1     13 x  13 x 512 ->   13 x  13 x1024 1.595 BF
+  13 conv    256       1 x 1/ 1     13 x  13 x1024 ->   13 x  13 x 256 0.089 BF
+  14 conv    512       3 x 3/ 1     13 x  13 x 256 ->   13 x  13 x 512 0.399 BF
+  15 conv    255       1 x 1/ 1     13 x  13 x 512 ->   13 x  13 x 255 0.044 BF
+  16 yolo
+[yolo] params: iou loss: mse (2), iou_norm: 0.75, obj_norm: 1.00, cls_norm: 1.00, delta_norm: 1.00, scale_x_y: 1.00
+  17 route  13 		                           ->   13 x  13 x 256
+  18 conv    128       1 x 1/ 1     13 x  13 x 256 ->   13 x  13 x 128 0.011 BF
+  19 upsample                 2x    13 x  13 x 128 ->   26 x  26 x 128
+  20 route  19 8 	                           ->   26 x  26 x 384
+  21 conv    256       3 x 3/ 1     26 x  26 x 384 ->   26 x  26 x 256 1.196 BF
+  22 conv    255       1 x 1/ 1     26 x  26 x 256 ->   26 x  26 x 255 0.088 BF
+  23 yolo
+[yolo] params: iou loss: mse (2), iou_norm: 0.75, obj_norm: 1.00, cls_norm: 1.00, delta_norm: 1.00, scale_x_y: 1.00
+Total BFLOPS 5.571
+avg_outputs = 341534
+ Allocate additional workspace_size = 52.43 MB
+Loading weights from /content/data/yolov3-tiny.weights...
+ seen 64, trained: 32013 K-images (500 Kilo-batches_64)
+Done! Loaded 24 layers from weights-file
+
+ calculation mAP (mean average precision)...
+ Detection layer: 16 - type = 28
+ Detection layer: 23 - type = 28
+196Can't open label file. (This can be normal only if you use MSCOCO): /content/data/labels/val2014/COCO_val2014_000000023017.txt
+504Can't open label file. (This can be normal only if you use MSCOCO): /content/data/labels/val2014/COCO_val2014_000000058636.txt
+860Can't open label file. (This can be normal only if you use MSCOCO): /content/data/labels/val2014/COCO_val2014_000000101623.txt
+1084Can't open label file. (This can be normal only if you use MSCOCO): /content/data/labels/val2014/COCO_val2014_000000127135.txt
+1112Can't open label file. (This can be normal only if you use MSCOCO): /content/data/labels/val2014/COCO_val2014_000000130712.txt
+1516Can't open label file. (This can be normal only if you use MSCOCO): /content/data/labels/val2014/COCO_val2014_000000176701.txt
+1540Can't open label file. (This can be normal only if you use MSCOCO): /content/data/labels/val2014/COCO_val2014_000000179430.txt
+1684Can't open label file. (This can be normal only if you use MSCOCO): /content/data/labels/val2014/COCO_val2014_000000192817.txt
+1968Can't open label file. (This can be normal only if you use MSCOCO): /content/data/labels/val2014/COCO_val2014_000000224742.txt
+2008Can't open label file. (This can be normal only if you use MSCOCO): /content/data/labels/val2014/COCO_val2014_000000228771.txt
+2204Can't open label file. (This can be normal only if you use MSCOCO): /content/data/labels/val2014/COCO_val2014_000000252101.txt
+2216Can't open label file. (This can be normal only if you use MSCOCO): /content/data/labels/val2014/COCO_val2014_000000253688.txt
+2388Can't open label file. (This can be normal only if you use MSCOCO): /content/data/labels/val2014/COCO_val2014_000000274957.txt
+2584Can't open label file. (This can be normal only if you use MSCOCO): /content/data/labels/val2014/COCO_val2014_000000297736.txt
+2604Can't open label file. (This can be normal only if you use MSCOCO): /content/data/labels/val2014/COCO_val2014_000000300090.txt
+2620Can't open label file. (This can be normal only if you use MSCOCO): /content/data/labels/val2014/COCO_val2014_000000301765.txt
+2708Can't open label file. (This can be normal only if you use MSCOCO): /content/data/labels/val2014/COCO_val2014_000000310622.txt
+2864Can't open label file. (This can be normal only if you use MSCOCO): /content/data/labels/val2014/COCO_val2014_000000328098.txt
+2948Can't open label file. (This can be normal only if you use MSCOCO): /content/data/labels/val2014/COCO_val2014_000000337653.txt
+2964Can't open label file. (This can be normal only if you use MSCOCO): /content/data/labels/val2014/COCO_val2014_000000339740.txt
+2972Can't open label file. (This can be normal only if you use MSCOCO): /content/data/labels/val2014/COCO_val2014_000000340781.txt
+2996Can't open label file. (This can be normal only if you use MSCOCO): /content/data/labels/val2014/COCO_val2014_000000344730.txt
+3004Can't open label file. (This can be normal only if you use MSCOCO): /content/data/labels/val2014/COCO_val2014_000000345711.txt
+3124Can't open label file. (This can be normal only if you use MSCOCO): /content/data/labels/val2014/COCO_val2014_000000359276.txt
+3156Can't open label file. (This can be normal only if you use MSCOCO): /content/data/labels/val2014/COCO_val2014_000000361831.txt
+3336Can't open label file. (This can be normal only if you use MSCOCO): /content/data/labels/val2014/COCO_val2014_000000382333.txt
+3516Can't open label file. (This can be normal only if you use MSCOCO): /content/data/labels/val2014/COCO_val2014_000000404601.txt
+3520Can't open label file. (This can be normal only if you use MSCOCO): /content/data/labels/val2014/COCO_val2014_000000405104.txt
+3528Can't open label file. (This can be normal only if you use MSCOCO): /content/data/labels/val2014/COCO_val2014_000000406217.txt
+3640Can't open label file. (This can be normal only if you use MSCOCO): /content/data/labels/val2014/COCO_val2014_000000421673.txt
+3816Can't open label file. (This can be normal only if you use MSCOCO): /content/data/labels/val2014/COCO_val2014_000000441788.txt
+Can't open label file. (This can be normal only if you use MSCOCO): /content/data/labels/val2014/COCO_val2014_000000441863.txt
+3892Can't open label file. (This can be normal only if you use MSCOCO): /content/data/labels/val2014/COCO_val2014_000000450098.txt
+3960Can't open label file. (This can be normal only if you use MSCOCO): /content/data/labels/val2014/COCO_val2014_000000459590.txt
+3980Can't open label file. (This can be normal only if you use MSCOCO): /content/data/labels/val2014/COCO_val2014_000000461275.txt
+4108Can't open label file. (This can be normal only if you use MSCOCO): /content/data/labels/val2014/COCO_val2014_000000476491.txt
+4144Can't open label file. (This can be normal only if you use MSCOCO): /content/data/labels/val2014/COCO_val2014_000000481404.txt
+4184Can't open label file. (This can be normal only if you use MSCOCO): /content/data/labels/val2014/COCO_val2014_000000486632.txt
+4196Can't open label file. (This can be normal only if you use MSCOCO): /content/data/labels/val2014/COCO_val2014_000000487702.txt
+4324Can't open label file. (This can be normal only if you use MSCOCO): /content/data/labels/val2014/COCO_val2014_000000502910.txt
+4388Can't open label file. (This can be normal only if you use MSCOCO): /content/data/labels/val2014/COCO_val2014_000000509423.txt
+4428Can't open label file. (This can be normal only if you use MSCOCO): /content/data/labels/val2014/COCO_val2014_000000514540.txt
+4684Can't open label file. (This can be normal only if you use MSCOCO): /content/data/labels/val2014/COCO_val2014_000000544597.txt
+4828Can't open label file. (This can be normal only if you use MSCOCO): /content/data/labels/val2014/COCO_val2014_000000562582.txt
+4844Can't open label file. (This can be normal only if you use MSCOCO): /content/data/labels/val2014/COCO_val2014_000000564317.txt
+4864Can't open label file. (This can be normal only if you use MSCOCO): /content/data/labels/val2014/COCO_val2014_000000566103.txt
+5000
+ detections_count = 436155, unique_truth_count = 35757
+class_id = 0, name = person, ap = 18.44%   	 (TP = 2453, FP = 3808)
+class_id = 1, name = bicycle, ap = 11.55%   	 (TP = 48, FP = 57)
+class_id = 2, name = car, ap = 7.84%   	 (TP = 220, FP = 749)
+class_id = 3, name = motorbike, ap = 24.77%   	 (TP = 92, FP = 76)
+class_id = 4, name = aeroplane, ap = 36.25%   	 (TP = 36, FP = 25)
+class_id = 5, name = bus, ap = 47.11%   	 (TP = 108, FP = 56)
+class_id = 6, name = train, ap = 53.38%   	 (TP = 91, FP = 30)
+class_id = 7, name = truck, ap = 15.08%   	 (TP = 59, FP = 106)
+class_id = 8, name = boat, ap = 7.31%   	 (TP = 44, FP = 120)
+class_id = 9, name = traffic light, ap = 1.59%   	 (TP = 21, FP = 137)
+class_id = 10, name = fire hydrant, ap = 41.00%   	 (TP = 37, FP = 24)
+class_id = 11, name = stop sign, ap = 39.17%   	 (TP = 39, FP = 32)
+class_id = 12, name = parking meter, ap = 14.42%   	 (TP = 9, FP = 9)
+class_id = 13, name = bench, ap = 7.22%   	 (TP = 30, FP = 42)
+class_id = 14, name = bird, ap = 7.43%   	 (TP = 40, FP = 97)
+class_id = 15, name = cat, ap = 45.92%   	 (TP = 54, FP = 21)
+class_id = 16, name = dog, ap = 33.17%   	 (TP = 58, FP = 56)
+class_id = 17, name = horse, ap = 34.19%   	 (TP = 107, FP = 96)
+class_id = 18, name = sheep, ap = 16.96%   	 (TP = 72, FP = 136)
+class_id = 19, name = cow, ap = 16.11%   	 (TP = 85, FP = 151)
+class_id = 20, name = elephant, ap = 41.22%   	 (TP = 135, FP = 128)
+class_id = 21, name = bear, ap = 57.87%   	 (TP = 25, FP = 11)
+class_id = 22, name = zebra, ap = 45.70%   	 (TP = 132, FP = 97)
+class_id = 23, name = giraffe, ap = 62.73%   	 (TP = 85, FP = 29)
+class_id = 24, name = backpack, ap = 1.59%   	 (TP = 5, FP = 27)
+class_id = 25, name = umbrella, ap = 13.96%   	 (TP = 65, FP = 113)
+class_id = 26, name = handbag, ap = 0.66%   	 (TP = 3, FP = 22)
+class_id = 27, name = tie, ap = 9.82%   	 (TP = 28, FP = 59)
+class_id = 28, name = suitcase, ap = 15.62%   	 (TP = 47, FP = 63)
+class_id = 29, name = frisbee, ap = 4.47%   	 (TP = 10, FP = 42)
+class_id = 30, name = skis, ap = 8.83%   	 (TP = 35, FP = 75)
+class_id = 31, name = snowboard, ap = 17.17%   	 (TP = 19, FP = 33)
+class_id = 32, name = sports ball, ap = 0.50%   	 (TP = 3, FP = 44)
+class_id = 33, name = kite, ap = 2.81%   	 (TP = 22, FP = 126)
+class_id = 34, name = baseball bat, ap = 6.50%   	 (TP = 11, FP = 35)
+class_id = 35, name = baseball glove, ap = 1.80%   	 (TP = 7, FP = 43)
+class_id = 36, name = skateboard, ap = 15.66%   	 (TP = 52, FP = 111)
+class_id = 37, name = surfboard, ap = 13.05%   	 (TP = 41, FP = 110)
+class_id = 38, name = tennis racket, ap = 18.23%   	 (TP = 52, FP = 95)
+class_id = 39, name = bottle, ap = 1.94%   	 (TP = 43, FP = 241)
+class_id = 40, name = wine glass, ap = 10.98%   	 (TP = 46, FP = 78)
+class_id = 41, name = cup, ap = 8.32%   	 (TP = 116, FP = 288)
+class_id = 42, name = fork, ap = 7.31%   	 (TP = 15, FP = 27)
+class_id = 43, name = knife, ap = 1.78%   	 (TP = 6, FP = 32)
+class_id = 44, name = spoon, ap = 2.13%   	 (TP = 5, FP = 20)
+class_id = 45, name = bowl, ap = 9.82%   	 (TP = 76, FP = 206)
+class_id = 46, name = banana, ap = 9.47%   	 (TP = 33, FP = 63)
+class_id = 47, name = apple, ap = 5.21%   	 (TP = 13, FP = 50)
+class_id = 48, name = sandwich, ap = 25.14%   	 (TP = 28, FP = 31)
+class_id = 49, name = orange, ap = 9.15%   	 (TP = 22, FP = 50)
+class_id = 50, name = broccoli, ap = 12.70%   	 (TP = 32, FP = 62)
+class_id = 51, name = carrot, ap = 6.53%   	 (TP = 22, FP = 50)
+class_id = 52, name = hot dog, ap = 9.54%   	 (TP = 9, FP = 9)
+class_id = 53, name = pizza, ap = 38.50%   	 (TP = 66, FP = 48)
+class_id = 54, name = donut, ap = 17.64%   	 (TP = 62, FP = 115)
+class_id = 55, name = cake, ap = 19.31%   	 (TP = 45, FP = 61)
+class_id = 56, name = chair, ap = 7.98%   	 (TP = 143, FP = 297)
+class_id = 57, name = sofa, ap = 27.20%   	 (TP = 44, FP = 41)
+class_id = 58, name = pottedplant, ap = 8.78%   	 (TP = 44, FP = 98)
+class_id = 59, name = bed, ap = 38.90%   	 (TP = 24, FP = 5)
+class_id = 60, name = diningtable, ap = 17.61%   	 (TP = 33, FP = 34)
+class_id = 61, name = toilet, ap = 50.51%   	 (TP = 87, FP = 72)
+class_id = 62, name = tvmonitor, ap = 34.19%   	 (TP = 105, FP = 123)
+class_id = 63, name = laptop, ap = 34.83%   	 (TP = 76, FP = 52)
+class_id = 64, name = mouse, ap = 2.80%   	 (TP = 8, FP = 44)
+class_id = 65, name = remote, ap = 3.06%   	 (TP = 8, FP = 41)
+class_id = 66, name = keyboard, ap = 28.85%   	 (TP = 41, FP = 68)
+class_id = 67, name = cell phone, ap = 6.24%   	 (TP = 23, FP = 47)
+class_id = 68, name = microwave, ap = 20.50%   	 (TP = 20, FP = 34)
+class_id = 69, name = oven, ap = 23.30%   	 (TP = 22, FP = 21)
+class_id = 70, name = toaster, ap = 1.14%   	 (TP = 0, FP = 0)
+class_id = 71, name = sink, ap = 20.66%   	 (TP = 63, FP = 104)
+class_id = 72, name = refrigerator, ap = 31.24%   	 (TP = 22, FP = 9)
+class_id = 73, name = book, ap = 0.68%   	 (TP = 14, FP = 176)
+class_id = 74, name = clock, ap = 9.53%   	 (TP = 49, FP = 146)
+class_id = 75, name = vase, ap = 11.99%   	 (TP = 49, FP = 71)
+class_id = 76, name = scissors, ap = 4.88%   	 (TP = 1, FP = 4)
+class_id = 77, name = teddy bear, ap = 29.73%   	 (TP = 61, FP = 57)
+class_id = 78, name = hair drier, ap = 2.27%   	 (TP = 0, FP = 0)
+class_id = 79, name = toothbrush, ap = 2.12%   	 (TP = 1, FP = 3)
+
+ for conf_thresh = 0.25, precision = 0.38, recall = 0.17, F1-score = 0.23
+ for conf_thresh = 0.25, TP = 6057, FP = 10069, FN = 29700, average IoU = 28.39 %
+
+ IoU threshold = 50 %, used Area-Under-Curve for each unique Recall
+ mean average precision (mAP@0.50) = 0.178942, or 17.89 %
+Total Detection Time: 34 Seconds
+
+Set -points flag:
+ `-points 101` for MS COCO
+ `-points 11` for PascalVOC 2007 (uncomment `difficult` in voc.data)
+ `-points 0` (AUC) for ImageNet, PascalVOC 2010-2012, your custom dataset
